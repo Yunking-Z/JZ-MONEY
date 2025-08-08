@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
+    depends_on:
+      - backend
+      - ai-service
+
+  backend:
+    build: ./backend
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=jz_money
+      - JWT_SECRET=your_jwt_secret_key
+      - JWT_EXPIRES_IN=24h
+    command: npm run dev
+    depends_on:
+      - postgres
+
+  ai-service:
+    build: ./ai-service
+    ports:
+      - '3002:3002'
+    volumes:
+      - ./ai-service:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+      - OPENAI_API_KEY=your_openai_api_key
+      - OPENAI_MODEL=gpt-3.5-turbo
+      - BACKEND_API_URL=http://backend:3001/api
+    command: npm run dev
+    depends_on:
+      - backend
+
+  postgres:
+    image: postgres:13
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=jz_money
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

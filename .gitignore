@@ -1,0 +1,54 @@
+# 项目根目录 .gitignore 文件
+
+# 依赖目录
+**/node_modules
+**/.pnp
+**/.pnp.js
+
+# 构建输出
+**/build
+**/dist
+**/out
+
+# 环境变量文件
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# 日志文件
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# 测试覆盖率
+**/coverage
+
+# 操作系统和IDE文件
+**/.DS_Store
+**/Thumbs.db
+**/.idea
+**/.vscode
+**/*.suo
+**/*.ntvs*
+**/*.njsproj
+**/*.sln
+**/*.sw?
+
+# 数据库文件
+**/*.db
+**/*.sqlite
+
+# 个人笔记
+personal_notes.md
+query
+
+# 临时文件
+**/*~
+
+# 忽略嵌套Git仓库
+**/.git
+**/.gitignore
+**/.gitattributes
